@@ -10,12 +10,26 @@
 	exercise, we think a single linear generator will do.
 	
 */
-
+import java.util.Random;
+	
 class CargoManager extends AVerboseThread {
+	public static Random random = new Random();
 
 	// Uses Country.RandomCargoPeriodSecs 
 	public void run() {
 		vlog("started");
+		try {
+		while (true) {
+			// TODO put 100 to 1000 :)
+			Thread.sleep(random.nextInt(100 * Country.RandomCargoPeriodSecs )); 
+			int srcStation = random.nextInt( Country.NumberOfStations);
+			int dstStation = random.nextInt( Country.NumberOfStations);
+			log("Generating a cargo in Station "+srcStation+" for Station "+dstStation);
+			// TODO put cargo in station :)
+		}
+		} catch (InterruptedException e) {
+			log("Something wrong happened");
+		}
 	}
 	
 	

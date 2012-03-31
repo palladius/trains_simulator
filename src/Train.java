@@ -20,7 +20,7 @@ public class Train extends AVerboseThread {
     //private int balance;
     private int slowness ; // models speed = 1/rail_delay (time in seconds to reach next station)
     private int position ;    // a number representing the position
-    private Cargo cargo ;
+    private Cargo[] cargos ;
     private String name;      // TODO remove me..
     private final int cargoCapacity;
     private Date birthDate;
@@ -31,15 +31,11 @@ public class Train extends AVerboseThread {
     public Train(String name, int railway_period, int initial_position, int cargo_capacity) {
         this.slowness = railway_period;
         this.position = initial_position;
-        this.cargo = null ;
+        this.cargos = null ;
         this.name = name;
         this.cargoCapacity = cargo_capacity;
         this.birthDate = new Date();
-        this.status    = STATION_START;
-    }
-
-    public void loadCargo(Cargo c) {
-        this.cargo = c;
+        this.status    = TrainStatus.STATION_START;
     }
     
     public void run() {
@@ -48,11 +44,12 @@ public class Train extends AVerboseThread {
     	
     	// here we simulate the train status
     	while (true) {
+    		
     		// a Train always starts in a station
-    		set_status(STATION_START);
-    		set_status(STATION_UNLOAD_CARGO);  // takes small amount of time
-    		set_status(STATION_LOAD_CARGO);    // takes a bit of time
-    		set_status(STATION_END); // registers for next track
+    		set_status(TrainStatus.STATION_START);
+    		set_status(TrainStatus.STATION_UNLOAD_CARGO);  // takes small amount of time
+    		set_status(TrainStatus.STATION_LOAD_CARGO);    // takes a bit of time
+    		set_status(TrainStatus.STATION_END); // registers for next track
     	}
     }
     
@@ -63,11 +60,11 @@ public class Train extends AVerboseThread {
      * */
     
     public void set_status(TrainStatus new_status) {
-    	vlog("Status Change: "+status+" => "+ new_status );
+    	dlog("Status Change for "+this+": "+ status +" => "+ new_status );
     	status = new_status;
     	// Manage status change todo
     	switch(new_status) {
-    		case STATION_STAR:
+    		case STATION_START:
     			
     			
     			break ;
@@ -76,7 +73,7 @@ public class Train extends AVerboseThread {
     			break;
     			
     		case STATION_LOAD_CARGO:
-    			
+    			// assert(position.instanceOf(Station));
     			
     			break;
     		case STATION_END:
@@ -90,7 +87,7 @@ public class Train extends AVerboseThread {
         return "Train '"+name
         		+ "' (time: " + slowness 
         		+ ", position: "+position
-        		+ ", cargo: "+ (cargo != null ? cargo : '-')
+        		+ ", cargos: "+ cargos // (cargos != null ? cargos : '-')
         		+ ")";
     }
 }

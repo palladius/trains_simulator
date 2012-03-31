@@ -3,16 +3,24 @@ public abstract class AVerboseThread extends Thread {
 	public static boolean Debug   = true;
 	public static boolean Verbose = true;
 	
-	public void dlog(String message); //logs a generic message if Debug is set
-	public void vlog(String message); //logs a generic message if Verbose is set
-	public void  log(String message) {
-		//logs a generic message
-		
-	
-	
+	public void dlog(String message) {
+		//logs a generic message if Debug is set
+		if (Debug) {
+			print(message);
+		}
+	}
+	public void vlog(String message) {
+		//logs a generic message if Verbose is set
+		if (Verbose) {
+			print(message);
+		}
+	}
+	public void  log(String message) {		//logs a generic message
+		print(message);
 	}
 	
+	// Note that the substring removes "class " from beginning of GetClass()
 	private void print(String message) {
-		System.out.println("VThread{"+getClass()+"}" + message);
+		System.out.println("VThread{"+getClass().toString().substring(6)+"} " + message);
 	}
 }

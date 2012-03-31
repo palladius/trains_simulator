@@ -19,12 +19,12 @@ public class Country {
 	
 	// this describes parameters which are true in my Hypotethical Country
 	// TODO move these to ARGV
-	public static final int NumberOfStations  = 8 ;
-	public static final int NumberOfTrains    = 4 ;
+	public static final int NumberOfStations     = 8 ;
+	public static final int NumberOfTrains        = 4 ;
 	public static final int RandomCargoPeriodSecs = 5 ; // seconds to randomize the arrive of a new cargo
-	public static final int UnloadTimeMilliSecs = 200 ; // small amount of time to unload any ONE piece of cargo
-	public static final int LoadTimeMilliSecs   = 100 ; // bit of time to unload any ONE piece of cargo
-	
+	public static final int UnloadTimeMilliSecs   = 200 ; // small amount of time to unload any ONE piece of cargo
+	public static final int LoadTimeMilliSecs     = 100 ; // bit of time to unload any ONE piece of cargo
+	public static final int CargoCapacity         = 10 ;  // number of cargo units a train can have
 	
 	final Station[] stations = new Station[Country.NumberOfStations]; // complex obj, easy monitor
 	final Railway[] railways = new Railway[Country.NumberOfStations]; // easy obj, shared resource

@@ -1,13 +1,16 @@
 
 
-//import java.util.Random;
 import java.util.Arrays;
 
 public class Exercise {
-	//public static Random random = new Random();
+	public static final String ProgramVersion       = "0.9.2" ;
+
 	
 	/** 
-	 * Deploys the 8 threads for trains, and a Visualizator thread
+	 * Deploys the 8 threads for trains, a Visualizator thread to print output 
+	 * and a CargoManager to 'produce' cargo objects.
+	 * 
+	 * A train
 	 * 
 	 * 
 	 * */
@@ -18,8 +21,8 @@ public class Exercise {
 		//Country hypothetical_country = 
 		Country.getInstance(); // force instatiation of the singleton
 		
-		System.out.println("Exercise.Main: Starting simulation with "+ Country.NumberOfTrains 
-				+" trains and "+ Country.NumberOfStations +" stations");
+		System.out.println("Exercise.Main(v"+ProgramVersion+"): Starting simulation with "+ 
+				Country.NumberOfTrains +" trains and "+ Country.NumberOfStations +" stations");
 
 		CargoManager cargo_thread = new CargoManager();
 		cargo_thread.start();
@@ -28,7 +31,13 @@ public class Exercise {
 
 		// initializing trains
 		for(int i = 0; i < trains.length; i++) {
-			trains[i] = new Train("train"+(i+1) , 4+i, 0 ); // they all start in same position with different speed
+			// they all start in same position with different speed
+			trains[i] = new Train(
+					"train"+i ,            // name
+					4+i,                   // time to traverse a Track
+					0,                     // initial position
+					Country.CargoCapacity 
+			); 
 			trains[i].start();
 		}
 		System.out.println("Exercise.Main: Trains started");
