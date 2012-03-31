@@ -13,18 +13,29 @@ The status of the train is (provided the system has NumberOFStations):
 
 */
 
-public class Train extends Thread {
+import java.util.Date;
+
+
+public class Train extends AVerboseThread {
     //private int balance;
     private int slowness ; // models speed = 1/rail_delay (time in seconds to reach next station)
     private int position ;    // a number representing the position
     private Cargo cargo ;
     private String name;      // TODO remove me..
+    private final int cargoCapacity;
+    private Date birthDate;
+    private TrainStatus status;
+    
+    public enum TrainStatus { STATION_START, STATION_UNLOAD_CARGO, STATION_LOAD_CARGO, STATION_END };
 
-    public Train(String name, int period, int initial_position) {
-        this.slowness = period;
+    public Train(String name, int railway_period, int initial_position, int cargo_capacity) {
+        this.slowness = railway_period;
         this.position = initial_position;
         this.cargo = null ;
         this.name = name;
+        this.cargoCapacity = cargo_capacity;
+        this.birthDate = new Date();
+        this.status    = STATION_START;
     }
 
     public void loadCargo(Cargo c) {
@@ -33,9 +44,44 @@ public class Train extends Thread {
     
     public void run() {
     	System.out.println("Train started: "+ toString() );
+    	log("started: "+ toString() );
     	
+    	// here we simulate the train status
     	while (true) {
     		// a Train always starts in a station
+    		set_status(STATION_START);
+    		set_status(STATION_UNLOAD_CARGO);  // takes small amount of time
+    		set_status(STATION_LOAD_CARGO);    // takes a bit of time
+    		set_status(STATION_END); // registers for next track
+    	}
+    }
+    
+    /** 
+     * Status transitions
+     * 
+     * 
+     * */
+    
+    public void set_status(TrainStatus new_status) {
+    	vlog("Status Change: "+status+" => "+ new_status );
+    	status = new_status;
+    	// Manage status change todo
+    	switch(new_status) {
+    		case STATION_STAR:
+    			
+    			
+    			break ;
+    		case STATION_UNLOAD_CARGO:
+    			
+    			break;
+    			
+    		case STATION_LOAD_CARGO:
+    			
+    			
+    			break;
+    		case STATION_END:
+    			
+    			break;
     	}
     }
 

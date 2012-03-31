@@ -3,14 +3,11 @@
  * 
  * */
 
-public class Visualizator extends Thread {
+public class Visualizator extends AVerboseThread {
 	public final static int sleepTime = 2000;
 	public final static boolean log_only_on_changes = false ;
+	//public final String verbose_thread_label = 'Visualizator';
 	int timer = 0;
-	
-	public void log(String message) {
-		System.out.println("Thread.Visualizator: T"+timer+" " + message);
-	}
 	
 	
 	public void run() {

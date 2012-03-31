@@ -1,5 +1,7 @@
 /**
- * This is a particular IPlace where ONLY ONE TRAIN can exist at a given time
+ * This is a particular IPlace where ONLY ONE TRAIN can exist at a given time.
+ * 
+ * In the problem this is called 'Track'.
  * 
  * 
  * 
