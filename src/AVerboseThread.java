@@ -6,7 +6,7 @@ public abstract class AVerboseThread extends Thread {
 	public void dlog(String message) {
 		//logs a generic message if Debug is set
 		if (Debug) {
-			print(message);
+			print("DEB " + message);
 		}
 	}
 	public void vlog(String message) {

@@ -33,8 +33,8 @@ public class Exercise {
 		for(int i = 0; i < trains.length; i++) {
 			// they all start in same position with different speed
 			trains[i] = new Train(
-					"train"+i ,            // name
-					4+i,                   // time to traverse a Track
+					i ,                    // cardinal
+					4+i,                   // time to traverse a Track (simulates speed)
 					0,                     // initial position
 					Country.CargoCapacity 
 			); 

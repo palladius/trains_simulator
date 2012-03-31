@@ -27,7 +27,7 @@ public class Station extends APlace {
 	}
 	
 	public void removeTrain(Train train)  throws Exception {
-		// TODO check exception
+		// Maybe in the future check/test exception
 		//if (train_here != null) {
 		//	throw new Exception("this train wasnt in this station before!");
 		//}
@@ -44,6 +44,11 @@ public class Station extends APlace {
 	public int absolutePosition() {
 		// 2N for stations and 2N+1 for railways
 		return 2 * position;
+	}
+	
+	// adds cargo from close by city to this station
+	public void addCargo(Cargo c) {
+		cargos.add(c) ;
 	}
 
 }

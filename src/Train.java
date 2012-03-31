@@ -21,18 +21,18 @@ public class Train extends AVerboseThread {
     private int slowness ; // models speed = 1/rail_delay (time in seconds to reach next station)
     private int position ;    // a number representing the position
     private Cargo[] cargos ;
-    private String name;      // TODO remove me..
+    private int occurrence;             // cardinal number for better observation
     private final int cargoCapacity;
     private Date birthDate;
     private TrainStatus status;
     
     public enum TrainStatus { STATION_START, STATION_UNLOAD_CARGO, STATION_LOAD_CARGO, STATION_END };
 
-    public Train(String name, int railway_period, int initial_position, int cargo_capacity) {
+    public Train(int n, int railway_period, int initial_position, int cargo_capacity) {
         this.slowness = railway_period;
         this.position = initial_position;
         this.cargos = null ;
-        this.name = name;
+        this.occurrence = n;
         this.cargoCapacity = cargo_capacity;
         this.birthDate = new Date();
         this.status    = TrainStatus.STATION_START;
@@ -60,7 +60,7 @@ public class Train extends AVerboseThread {
      * */
     
     public void set_status(TrainStatus new_status) {
-    	dlog("Status Change for "+this+": "+ status +" => "+ new_status );
+    	//dlog("Status Change for "+this+": "+ status +" => "+ new_status );
     	status = new_status;
     	// Manage status change todo
     	switch(new_status) {
@@ -84,7 +84,7 @@ public class Train extends AVerboseThread {
 
     @Override
     public String toString() {
-        return "Train '"+name
+        return "Train '"+occurrence
         		+ "' (time: " + slowness 
         		+ ", position: "+position
         		+ ", cargos: "+ cargos // (cargos != null ? cargos : '-')

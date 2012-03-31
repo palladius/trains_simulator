@@ -92,6 +92,15 @@ public class Country {
 		}
 		return ret;
 	}
+	/**
+	 * This method takes a Cargo and places it in the appropriate station
+	 * 
+	 * @param cargo
+	 */
+	public void deliverCargoToAppropriateStation(Cargo cargo) {
+		int src = cargo.getSource();
+		stations[src].addCargo(cargo);
+	}
 	
 	public String toString() {
 		return CurrentState(true);
