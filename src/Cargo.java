@@ -30,7 +30,8 @@ public class Cargo {
 	}
 	
 	public String toString() {
-		return "C("+source+"->"+destination+" - "+ birthDate +")";
+		//return "C("+source+"->"+destination+" - "+ birthDate +")";
+		return "C("+source+"->"+destination+")";
 	}
 	
 	// creates a random Cargo. It's important that destination and source are not the same.

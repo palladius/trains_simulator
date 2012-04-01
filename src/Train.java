@@ -76,11 +76,12 @@ public class Train extends AVerboseThread {
     		}
     	}
  
-    	myRailway.addTrain(this);
+    	myRailway.addTrain(this); // occupying the resource!
     	
     	// now that I have my resource Railway, I can go into it. 
     	// I simulate the time spent here with different speed as a sleep = slowness in seconds
     	try {
+    		vlog("4b. Occupying railway for some time..");
         	Thread.sleep(slowness * 1000);    		
     	} catch (InterruptedException e) {
     		log("TrainThread interrupted when on Railway: "+myRailway);
@@ -149,10 +150,16 @@ public class Train extends AVerboseThread {
 				i < myStation.getCargos().size() && // not more than available in station
 				i < (cargoCapacity - cargos.size()) // not more I (train) can get 
 				; i++ ) {
-			dlog("3e - "+myStation+": " + myStation.getCargos().get(i));
-			TODO atomically sutract / add
+			///////////////////////////////////////////////////////////////////////////
+			// Should be synchronized:
+			dlog("3e - "+myStation+", adding " + myStation.getCargos().get(i));
+			//TODO atomically sutract / add
+			// TODO MONITOR THIS:
+			myStation.removeCargo(i);
+			cargos.add( myStation.getCargos().get(i) );
 		}
-		// TODO load stuff
+		dlog("3e. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
+		dlog("3f. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
 	}
 
 //	private APlace myPlace() {

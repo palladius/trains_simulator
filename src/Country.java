@@ -45,14 +45,14 @@ public class Country {
 		}
 		for(int i = 0; i < Country.NumberOfTrains ; i++) {
 			// they all start in same position with different speed
-			Train train = trains[i];
- 			train = new Train(
+			//Train train = trains[i];
+ 			trains[i] = new Train(
 					i ,                      // cardinal
 					4+i,                     // time to traverse a Track (simulates speed)
 					2*i,                     // initial position
 					Country.CargoCapacity 
 			); 
-			train.start(); // it's a thread
+ 			trains[i].start(); // it's a thread
 		}
 	}
 	

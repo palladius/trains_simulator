@@ -51,17 +51,17 @@ public class Station extends APlace {
 		// 2N for stations and 2N+1 for railways
 		return 2 * position;
 	}
-//	public Position absolutePosition2() {
-//		// 2N for stations and 2N+1 for railways
-//		return new Position(2 * position);
-//	}
+	public Position absolutePosition2() {
+		// 2N for stations and 2N+1 for railways
+		return new Position(2 * position);
+	}
 	
 	// adds cargo from close by city to this station
 	public synchronized void addCargo(Cargo c) {
 		cargos.add(c) ;
 	}
 
-	public ArrayList<Cargo> getCargos() {
+	public synchronized ArrayList<Cargo> getCargos() {
 		return cargos;
 	}
 
