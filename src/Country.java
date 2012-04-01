@@ -1,4 +1,4 @@
-import java.util.Arrays;
+//import java.util.Arrays;
 
 /**
  *  this contains the main of the exercise and all the relevant variables.
@@ -18,8 +18,8 @@ public class Country {
 	public static Country singleton_instance; // making it singleton
 	
 	// this describes parameters which are true in my Hypotethical Country
-	// TODO move these to ARGV
-	public static final int NumberOfStations     = 8 ;
+	// TODO_IF_TIME move these to ARGV
+	public static final int NumberOfStations      = 8 ;
 	public static final int NumberOfTrains        = 4 ;
 	public static final int RandomCargoPeriodSecs = 5 ; // seconds to randomize the arrive of a new cargo
 	public static final int UnloadTimeMilliSecs   = 200 ; // small amount of time to unload any ONE piece of cargo
@@ -28,30 +28,34 @@ public class Country {
 	
 	final Station[] stations = new Station[Country.NumberOfStations]; // complex obj, easy monitor
 	final Railway[] railways = new Railway[Country.NumberOfStations]; // easy obj, shared resource
-	APlace[] places ; // will hold the 2*N positions
-
-	//final Station[] stations;
+	final   Train[] trains   = new   Train[Country.NumberOfTrains];   // thread objects
 	
-	//Train trains[World.NumberOFtrains];
+	//APlace[] placesTmpReplaceStationAndRailway ; // will hold the 2*N positions, that point alternatively to stations and railways
 	
 	// my private Country singleton
 	private Country() {
-		
 		System.out.println("Country.singleton_initializer");
-
-		places = new APlace[ 2*NumberOfStations ]; // cant make it final for this 2* :)
-		
+		//placesTmpReplaceStationAndRailway = new APlace[ 2*NumberOfStations ]; // cant make it final for this 2* :)
 		// initializing the Infrastructure
 		for(int i = 0; i < Country.NumberOfStations; i++) {
 			stations[i] = new Station(i);
-			//stations[i].start();
 			railways[i] = new Railway(i);
-			//railways[i].start();
-			
-			places[2*i]   = new Station(i);
-			places[2*i+1] = new Railway(i);
+			//placesTmpReplaceStationAndRailway[2*i]   = new Station(i);
+			//placesTmpReplaceStationAndRailway[2*i+1] = new Railway(i);
+		}
+		for(int i = 0; i < Country.NumberOfTrains ; i++) {
+			// they all start in same position with different speed
+			Train train = trains[i];
+ 			train = new Train(
+					i ,                      // cardinal
+					4+i,                     // time to traverse a Track (simulates speed)
+					4*i,                     // initial position
+					Country.CargoCapacity 
+			); 
+			//train.start();
 		}
 	}
+	
 	
 	// singleton invocation
 	public static Country getInstance() {
@@ -73,22 +77,35 @@ public class Country {
 	 * @return
 	 */
 	
-	public String CurrentState(boolean verbose) {
+	public String currentState(boolean verbose) {
 		// dont use verbose for now
 		String ret = "";
 		if (verbose) {
-			// ret += "=========== Current Country Status ========\n";
+			// verbose multiline print
+			ret += "=========== Current Country Status ========\n";
+			for(int i=0;i<NumberOfStations;i++) {
+				ret += " Station["+i+"]: ";
+				ret += stations[i].toString();
+				ret += '\n';
+				ret += " Railway["+i+"]: ";
+				ret += railways[i].toString();
+				ret += '\n';
+			}
+//			for(int j=0; j < NumberOfTrains; j++) {
+//				ret += " Train["+j+"]: ";
+//				ret += trains[j].toString();
+//				ret += '\n';
+//			}
+		} else {
 			for(int i=0;i<NumberOfStations;i++) {
 				ret += '[';
 				ret += stations[i].toString();
 				ret += ']';
 				ret += "  ";
-				ret += "»»";
+				ret += "»";
 				ret += railways[i].toString();
-				ret += "»»";
-			}
-		} else {
-			
+				ret += "»";
+			}			
 		}
 		return ret;
 	}
@@ -103,6 +120,16 @@ public class Country {
 	}
 	
 	public String toString() {
-		return CurrentState(true);
+		return currentState(true);
+	}
+	
+	public Station getStation(int which) {
+		return stations[which]; // make sure its from 1 to N
+	}
+	public Train getTrain(int which) {
+		return trains[which]; // make sure its from 1 to N
+	}
+	public Railway getRailway(int railway_number) {
+		return railways[railway_number];
 	}
 }

@@ -1,22 +1,23 @@
-
-
-import java.util.Arrays;
-
-public class Exercise {
-	public static final String ProgramVersion       = "0.9.2" ;
-
-	
-	/** 
+	/**
+	 * This is the exercise main, decoupled with the business logic (as far as it can).
+	 * 
 	 * Deploys the 8 threads for trains, a Visualizator thread to print output 
 	 * and a CargoManager to 'produce' cargo objects.
 	 * 
 	 * A train
 	 * 
 	 * 
-	 * */
+	 * @author Riccardo_Carlesso
+	 *
+	 */
+
+//import java.util.Arrays;
+
+public class Exercise {
+	public static final String ProgramVersion       = "0.9.5" ;
+	
 	public static void main(String[] args) throws InterruptedException {
 		// initialization
-		final   Train[] trains   = new   Train[Country.NumberOfTrains];   // thread
 		
 		//Country hypothetical_country = 
 		Country.getInstance(); // force instatiation of the singleton
@@ -30,19 +31,19 @@ public class Exercise {
 		visualizatorThread.start();
 
 		// initializing trains
-		for(int i = 0; i < trains.length; i++) {
+		// Note. Conceptually, the train should be born in country constructor...
+		for(int i = 0; i < Country.NumberOfTrains ; i++) {
 			// they all start in same position with different speed
-			trains[i] = new Train(
-					i ,                    // cardinal
-					4+i,                   // time to traverse a Track (simulates speed)
-					0,                     // initial position
-					Country.CargoCapacity 
-			); 
-			trains[i].start();
+			Train train = Country.getInstance().getTrain(i);
+// 			train = new Train(
+//					i ,                      // cardinal
+//					4+i,                     // time to traverse a Track (simulates speed)
+//					4*i,                     // initial position
+//					Country.CargoCapacity 
+//			); 
+			train.start();
 		}
-		System.out.println("Exercise.Main: Trains started");
-		
-				
+		System.out.println("Exercise.Main: All trains started");		
 		System.out.println("Exercise.Main: exiting thread (TODO gather threads info before quitting)");
 	}
 }

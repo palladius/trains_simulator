@@ -19,14 +19,14 @@ public class Station extends APlace {
 		cargos      = new ArrayList<Cargo>();
 	}
 	
-	public void addTrain(Train newTrain) throws Exception {
+	public void addTrain(Train newTrain) {
 		//if (train_here != null) {
 		//	throw new Exception("this train is already present in this station: " + train_here);
 		//}
 		trains_here.add(newTrain);
 	}
 	
-	public void removeTrain(Train train)  throws Exception {
+	public void removeTrain(Train train) {
 		// Maybe in the future check/test exception
 		//if (train_here != null) {
 		//	throw new Exception("this train wasnt in this station before!");
@@ -44,6 +44,10 @@ public class Station extends APlace {
 	public int absolutePosition() {
 		// 2N for stations and 2N+1 for railways
 		return 2 * position;
+	}
+	public Position absolutePosition2() {
+		// 2N for stations and 2N+1 for railways
+		return new Position(2 * position);
 	}
 	
 	// adds cargo from close by city to this station

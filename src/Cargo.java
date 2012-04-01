@@ -9,16 +9,16 @@
 	A station holds a Cargo (thus a cargo doesn't need to know where it is, just where its going)
 */
 
-import java.util.Arrays;
+//import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 
 public class Cargo {
 	private static Random random = new Random();
 	
-	int source;
-	int destination;
-	Date birthDate; // might be interesting to make statistics about the lifespan of a cargo object
+	int source;       // 0..N station number (it's NOT a position)
+	int destination;  // 0..N station number (it's NOT a position)
+	Date birthDate;   // might be interesting to make statistics about the lifespan of a cargo object
 
 	public Cargo(int src,int dest) {
 		source      = src;

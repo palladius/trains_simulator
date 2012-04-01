@@ -4,16 +4,15 @@
  * */
 
 public class Visualizator extends AVerboseThread {
-	public final static int sleepTime = 2000;
-	public final static boolean log_only_on_changes = false ;
-	//public final String verbose_thread_label = 'Visualizator';
-	int timer = 0;
-	
+	public final static     int sleepTime           = 1000; // milliseconds
+	public final static boolean log_only_on_changes = false ; // if false logs always
+	int timer = 0; // for some kind of absolute timing, like modern dmesgs
 	
 	public void run() {
+		setName("Visualizator (Visualize the Country Status from time to time)");
 		log("Thread started");
 		String previous_status = "";
-		String current_status = "";
+		String current_status  = "";
 		try {
 			while(true) {
 				current_status = Country.getInstance().toString();

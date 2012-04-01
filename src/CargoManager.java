@@ -23,7 +23,7 @@ class CargoManager extends AVerboseThread {
 				// TODO put 100 to 1000 :)
 				Thread.sleep(random.nextInt(100 * Country.RandomCargoPeriodSecs )); 
 				Cargo recurrent = Cargo.getRandomCargo();
-				dlog("Generating a cargo: "+ recurrent );
+				//dlog("Generating a cargo: "+ recurrent );
 				//Country.getInstance().stations[ recurrent.getSource() ].setCargo
 				Country.getInstance().deliverCargoToAppropriateStation(recurrent);
 			}
