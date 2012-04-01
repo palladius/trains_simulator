@@ -1,16 +1,22 @@
-/*
-	A train is a Thread which goes to stations.
-	
-	Every train has a:
-	- speed (modelled through slowness)
-	- position (might be in a station[0..7], might be a track[0..7]). I could model position thru an object but id rather keep it simple
+/**
+ * 
+ * A train is a Thread which goes to stations.
+ * 
+ * 
+ * Every train has a:
+ *	- speed (modelled through slowness)
+ *	- position (might be in a station[0..7], might be a track[0..7]). I could model position thru an object but id rather keep it simple
 
-The status of the train is (provided the system has NumberOFStations):
- - arriving at a station
- - departing
- - loading
- - unloading, etc
-
+ * The status of the train is (provided the system has NumberOFStations):
+ * - arriving at a station
+ * - loading
+ * - unloading, etc
+ * - departing
+ * 
+ * an interesting refactor could be to use a Position object and so forget about integers (it's 
+ * quite easy to confuse positions (16) and railway/station indexes (8). Ive tried to be as
+ * strict as possible with names in order not to introduce strange bugs..
+ * 
 */
 
 import java.util.ArrayList;
@@ -18,9 +24,8 @@ import java.lang.Math;
 
 
 public class Train extends AVerboseThread {
-    int slowness ; // models speed = 1/rail_delay (time in seconds to reach next station)
-    int position ;    // a number representing the position 0..2N
-    //private Position position2 ;    // a number representing the position
+    int slowness ;              // models speed = 1/rail_delay (time in seconds to reach next station)
+    int position ;              // a number representing the position 0..2N
 	ArrayList<Cargo> cargos;    // array of Cargos for this train, can grow indefinitely
     int occurrence;             // cardinal number for better observation (name)
     final int cargoCapacity;
@@ -31,7 +36,6 @@ public class Train extends AVerboseThread {
     public Train(int n, int railway_period, int initial_position, int cargo_capacity) {
         this.slowness      = railway_period;
         this.position      = 2*initial_position;
-        //this.position2     = new Position(2*initial_position);
         this.cargos        = new ArrayList<Cargo>();
         this.occurrence    = n;
         this.cargoCapacity = cargo_capacity;
@@ -44,9 +48,9 @@ public class Train extends AVerboseThread {
     	log("started: "+ toString() );
     	
     	// here we simulate the train status
+		// a Train always starts in a station
     	myStation().addTrain(this); // first time I need this or Im in inconsistent state
     	while (true) {
-    		// a Train always starts in a station
     		set_status(TrainStatus.STATION_START);
     		set_status(TrainStatus.STATION_UNLOAD_CARGO);  // takes small amount of time
     		set_status(TrainStatus.STATION_LOAD_CARGO);    // takes a bit of time
@@ -72,7 +76,7 @@ public class Train extends AVerboseThread {
 
     	myStation.removeTrain(this); // deregistering Train from the station which has the same number as the RW
 
-    	dlog("4. Registering '"+this+"' on Railway: " + myRailway);
+    	//dlog("4. Registering '"+this+"' on Railway: " + myRailway);
     	
     	// this synchronizes all trains on a "single track" railway
     	while(myRailway.isBusy()) {
@@ -98,12 +102,10 @@ public class Train extends AVerboseThread {
     }
     
     /** 
-     * Status transitions
+     * Status transitions (trivial in this case)
      * 
-     * */
-    
+     * */    
     public synchronized void set_status(TrainStatus new_status) {
-    	//dlog("Status Change for "+this+": "+ status +" => "+ new_status );
     	mystatus = new_status;
 
     	switch(new_status) {
@@ -114,14 +116,13 @@ public class Train extends AVerboseThread {
     			unloadCargo(); // second move
     			break;
     		case STATION_LOAD_CARGO: // third move
-    			// assert(position.instanceOf(Station));
     			loadCargo();
     			break;
     		case STATION_END:
     	        increment_position(); // moving from station to next railway
     	        registerToRailway(position/2);  // should be (N-1)/2 (odd). Possibly Ill wait here
     	        increment_position();
-    	        notifyAll();                    // SYNC waiting objects
+    	        notifyAll();                    // SYNC waiting objects now that Im out of the Railway
     	        break;
     	}
     }
@@ -151,6 +152,7 @@ public class Train extends AVerboseThread {
 	
 	// can only call this internally, its a shortcut to a typcast of the station from current position
 	private Station myStation() {
+		// should make sure position is an even number..
 		return (Station) APlace.getCountryPlace(position);
 	}
 
@@ -176,15 +178,18 @@ public class Train extends AVerboseThread {
 		} // synchronized on the station
 	}
 
-	@Override
-    public String toString() {
+    public String toStringVerbose() {
         return "Train."+occurrence
         		+ "("
-        		+ "pos: " + position
-        		+ ",c: "  + cargos
+        		+ "pos => " + position
+        		+ ",cs => "  + cargos.size()
         		+ ")";
     }
+	@Override
+	public String toString() {
+		return toStringMini();
+	}
 	public String toStringMini() {
-		return "T"+occurrence+"(p="+position+")";
+		return "Tr"+occurrence+"(P"+position+",C"+cargos.size()+")";
 	}
 }

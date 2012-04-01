@@ -28,8 +28,9 @@ public class Station extends APlace {
 		synchronized(trains_here) {
 			if (trains_here.indexOf(newTrain) != -1) {
 				System.err.println("This train is already present in this station: " + newTrain); // not a problem though
-			} 
-			trains_here.add(newTrain);
+			} else {
+				trains_here.add(newTrain);				
+			}
 		}
 	}
 	

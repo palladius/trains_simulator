@@ -1,4 +1,11 @@
-
+/**
+ * This is a Thread on steroids (or actually it helps visualizing log messages).
+ *
+ * I feel Java is a wee too verbose without these utilities...
+ * 
+ * @author Riccardo_Carlesso
+ *
+ */
 public abstract class AVerboseThread extends Thread {
 	public static boolean Debug   = false;
 	public static boolean Verbose = true;
