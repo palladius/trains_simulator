@@ -1,4 +1,4 @@
-= Trains =
+= Trains Problem =
 
 In some hypothetical country, there are 8 train stations with a single rail track
 connecting the train stations. This track forms a big circle.
@@ -26,9 +26,15 @@ interesting events (arriving at a station, departing, loading, unloading, etc) t
 screen. Design your program so that the number of stations, the number of trains
 and their cargo capacity can be easily modified.
 
-= Assumptions =
+= Solution =
 
-A station can have multiple trains, a railway is a shared resource with at most ONE train.
+The solution is a simple CLI client that might be invoked this way (see Makefile)
 
+  javac *.java
+  java Exercise
 
+* A station can have multiple trains, a railway is a shared resource with at most ONE train.
+* There are 2 threads for visualization and cargo generation, plus Nt where is the number of trains. 
 
+As output, the program provides a log-like standard output and a status file with a synoptic which
+helps understand the state of the system.

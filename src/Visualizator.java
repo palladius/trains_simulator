@@ -1,12 +1,15 @@
 /** 
- * Very simply, it tells the state of the system every second
+ * Very simply, it tells the state of the system every N seconds
+ * 
+ * It also logs a status file which is handier to monitor..
  * 
  * */
 import java.io.*;
 
 public class Visualizator extends AVerboseThread {
-	public final static     int sleepTimeSecs        = 10;     // seconds
+	public final static     int sleepTimeSecs       = 10;     // seconds
 	public final static boolean log_only_on_changes = false ; // if false logs always
+	public final static String status_filename      = "status_long.yml" ;
 	int timer = 0; // for some kind of absolute timing, like modern dmesgs
 	
 	public void run() {
@@ -31,7 +34,7 @@ public class Visualizator extends AVerboseThread {
 				
 				// write also status to file
 				try {
-					File f = new File("status_long.txt");
+					File f = new File(status_filename);
 					FileWriter fstream = new FileWriter(f);
 					BufferedWriter out = new BufferedWriter(fstream);
 					out.write(current_status_long);

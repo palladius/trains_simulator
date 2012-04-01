@@ -24,7 +24,6 @@ public class Station extends APlace {
 	}
 	
 	public synchronized void addTrain(Train newTrain) {
-		// TEST
 		synchronized(trains_here) {
 			if (trains_here.indexOf(newTrain) != -1) {
 				System.err.println("This train is already present in this station: " + newTrain); // not a problem though

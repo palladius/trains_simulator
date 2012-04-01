@@ -29,7 +29,6 @@ public class Cargo {
 	}
 	
 	public String toString() {
-		//return "C("+source+"->"+destination+" - "+ birthDate +")";
 		return "C("+source+"->"+destination+")";
 	}
 	

@@ -1,5 +1,5 @@
 /**
- * This is a Thread on steroids (or actually it helps visualizing log messages).
+ * This is a Thread on 'steroids' (or actually it helps visualizing log messages).
  *
  * I feel Java is a wee too verbose without these utilities...
  * 
