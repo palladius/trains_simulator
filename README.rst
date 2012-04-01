@@ -37,8 +37,9 @@ Solution
 
 The solution is a simple CLI client that might be invoked this way (see `Makefile`)
 
-	make clean
-	make run
+ make clean
+
+ make run
 
 * A station can have multiple trains, a railway is a shared resource with at most ONE train.
 * There are 2 threads for visualization and cargo generation, plus Nt where is the number of trains. 
