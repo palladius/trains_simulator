@@ -23,14 +23,14 @@ public class Cargo {
 	public Cargo(int src,int dest) {
 		source      = src;
 		destination = dest;
-        birthDate = new Date();
+        birthDate = new Date(); // simulates a label/name: I may have more than one cargo with same src/dst
 		//if (source==destination) {
 		//	throw Exception("src and destination for a Cargo shouldn't be the same!");
 		//}
 	}
 	
 	public String toString() {
-		return "C("+source+"->"+destination+")";
+		return "C("+source+"->"+destination+" - "+ birthDate +")";
 	}
 	
 	// creates a random Cargo. It's important that destination and source are not the same.

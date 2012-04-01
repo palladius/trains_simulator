@@ -20,7 +20,7 @@ public class Train extends AVerboseThread {
     int position ;    // a number representing the position 0..2N
     //private Position position2 ;    // a number representing the position
 	ArrayList<Cargo> cargos;    // array of Cargos for this train, can grow indefinitely
-    int occurrence;             // cardinal number for better observation
+    int occurrence;             // cardinal number for better observation (name)
     final int cargoCapacity;
     TrainStatus mystatus;
     
@@ -38,6 +38,7 @@ public class Train extends AVerboseThread {
     
     public void run() {
     	System.out.println("Train started: "+ toString() );
+		setName("ThTrain(occurrence="+occurrence+")");
     	log("started: "+ toString() );
     	
     	// here we simulate the train status
@@ -114,7 +115,7 @@ public class Train extends AVerboseThread {
 	}
 
 	void unloadCargo() {
-		// TODO Auto-generated method stub
+		// TODO if matches, remove it
     	dlog("2. TODO UnLoadCargo for "+this+" at position: " + position);
     	for(int k=0; k < cargos.size(); k++) {
     		Cargo c = cargos.get(k);
@@ -125,14 +126,26 @@ public class Train extends AVerboseThread {
 
 	void loadCargo() {
 		// TODO load cargo based on cargoCapacity
-    	dlog("3. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
-		
+    	dlog("3a. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
+		dlog("3b. Station has following cargos (all are good):\n");
+		//assert_station();
+		//available_cargos = myPlace().cargos;
+		Station myStation = (Station) APlace.getCountryPlace(position);
+		Cargo available_cargos[];
+		for (int i=0 ; i < myStation.getCargos() ; i++ ) {
+			
+		}
 	}
+
+//	private APlace myPlace() {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	@Override
     public String toString() {
-        return "Train '"+occurrence
-        		+ "' ("
+        return "Train."+occurrence
+        		+ "("
         		+ "pos: " + position
         		+ ",c: "  + cargos
         		+ ",slow::"  + slowness 

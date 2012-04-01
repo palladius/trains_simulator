@@ -17,6 +17,14 @@ public abstract class APlace {
 	public boolean isBusy () {
 		return ! isEmpty() ;
 	}
+	
+	public static APlace getCountryPlace(int position) {
+		if (position % 2 == 0) { // even, station
+			return Country.getInstance().getStation(position/2);
+		} else { // odd, railway
+			return Country.getInstance().getRailway(position/2);
+		}
+	}
 //	
 //	public int getNextPosition() {
 //		int current_position = absolutePosition() + 1; // increment

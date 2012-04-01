@@ -26,13 +26,16 @@ public class Station extends APlace {
 		trains_here.add(newTrain); // OK
 	}
 	
+	/**
+	 * ArrayList only supports removing INT (index of object). Strangely enough, Eclipse didnt correct me!
+	 */
 	public synchronized void removeTrain(Train train) {
 		// Maybe in the future check/test exception
 		//if (train_here != null) {
 		//	throw new Exception("this train wasnt in this station before!");
 		//}
 		System.out.println("DEB: trains_here = " + trains_here);
-		trains_here.remove(train); // seems to crash here
+		trains_here.remove(trains_here.indexOf(train)); // seems to crash here, apparently "remove" wants an index 
 	}
 	
 	public boolean isEmpty() {
@@ -56,6 +59,14 @@ public class Station extends APlace {
 	// adds cargo from close by city to this station
 	public void addCargo(Cargo c) {
 		cargos.add(c) ;
+	}
+
+	public ArrayList<Cargo> getCargos() {
+		return cargos;
+	}
+
+	public void removeCargo(int cargoIndex) {
+		this.cargos.remove(cargoIndex);
 	}
 
 }
