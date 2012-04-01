@@ -93,7 +93,7 @@ public class Station extends APlace {
 	}
 
 	/**
-	 * his methods basically does a 'pop' frpom the array. For the
+	 * his methods basically does a 'pop' from the array. For the
 	 * exercise, it's not important which cargo is taken, so for simplicity
 	 * we'll get the first one.
 	 * 
