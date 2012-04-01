@@ -17,6 +17,7 @@ class CargoManager extends AVerboseThread {
 
 	// Uses Country.RandomCargoPeriodSecs 
 	public void run() {
+		setName("CargoManager (creates Cargo objects from time to time)");
 		vlog("started");
 		try {
 			while (true) {
