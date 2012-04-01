@@ -44,6 +44,7 @@ public class Train extends AVerboseThread {
     	log("started: "+ toString() );
     	
     	// here we simulate the train status
+    	myStation().addTrain(this); // first time I need this or Im in inconsistent state
     	while (true) {
     		// a Train always starts in a station
     		set_status(TrainStatus.STATION_START);
@@ -54,11 +55,10 @@ public class Train extends AVerboseThread {
     }
     
     // on creation, register that you are in station #station_number
-    public void registerToStation(int station_number) {
+    public synchronized void  registerToStation(int station_number) {
     	Station myStation = Country.getInstance().getStation(station_number);
-    	dlog("1a. Registering '"+this+"' on Station: "+myStation);
+    	log("Train entering station: "+ myStation.toStringMini() );
     	myStation.addTrain(this);
-    	dlog("1b. Registered  '"+this+"' on Station: "+myStation);
     }
     
     /**
@@ -88,7 +88,7 @@ public class Train extends AVerboseThread {
     	// now that I have my resource Railway, I can go into it. 
     	// I simulate the time spent here with different speed as a sleep = slowness in seconds
     	try {
-    		vlog("" + this + " entering railway track..");
+    		log("Train entering railway track: " + myRailway.toStringMini() );
         	Thread.sleep(slowness * 1000);    		
     	} catch (InterruptedException e) {
     		log("TrainThread interrupted when on Railway: "+myRailway);
@@ -131,22 +131,24 @@ public class Train extends AVerboseThread {
 	}
 
     // does action with cargo which might magically disappear...
-	synchronized void unloadCargo() {
-    	dlog("2. UnLoadCargo for "+this+" at position: " + position);
-    	for(int k=0; k < cargos.size(); k++) {
-    		Cargo c = cargos.get(k);
-    		boolean matches = c.destination == position / 2 ;
-    		dlog("Lets see if my cargo '"+c+"' matches this position: " + position + ": " + matches);
-    		if (c.destination == myStation().getIndex() ) {
-    			Cargo tmpCargo = cargos.remove(k);
-    			vlog("Cargo correctly unloaded from train "+this+" in station "+myStation()+": " + tmpCargo );
-    		}
-    		try {
-        		Thread.sleep(Country.UnloadTimeMilliSecs); // simulates small time wait    			
-    		} catch (Exception e) {
-    			log("Interrupted while unloading some cargo..");
-    		}
-    	}
+	void unloadCargo() {
+		synchronized(cargos) {
+	    	dlog("2. UnLoadCargo for "+this+" at position: " + position);
+	    	for(int k=0; k < cargos.size(); k++) {
+	    		Cargo c = cargos.get(k);
+	    		//boolean matches = c.destination == position / 2 ;
+	    		//dlog("Lets see if my cargo '"+c+"' matches this position: " + position + ": " + matches);
+	    		if (c.destination == myStation().getIndex() ) {
+	    			Cargo tmpCargo = cargos.remove(k);
+	    			vlog("Cargo correctly unloaded in station "+myStation()+": " + tmpCargo );
+	    		}
+	    		try {
+	        		Thread.sleep(Country.UnloadTimeMilliSecs); // simulates small time wait    			
+	    		} catch (Exception e) {
+	    			log("Interrupted while unloading some cargo..");
+	    		}
+	    	}
+		}
 	}
 	
 	// can only call this internally, its a shortcut to a typcast of the station from current position

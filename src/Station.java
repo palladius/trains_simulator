@@ -26,9 +26,10 @@ public class Station extends APlace {
 	public synchronized void addTrain(Train newTrain) {
 		// TEST
 		if (trains_here.indexOf(newTrain) != -1) {
-			System.err.println("this train is already present in this station: " + newTrain);
+			System.err.println("This train is already present in this station: " + newTrain); // not a problem though
+		} else {
+			trains_here.add(newTrain); // OK
 		}
-		trains_here.add(newTrain); // OK
 	}
 	
 	/**
@@ -43,7 +44,11 @@ public class Station extends APlace {
 			//	throw new Exception("this train wasn't in this station before!");
 				System.err.println("this train wasn't in this station before!");
 			}
-			trains_here.remove(trains_here.indexOf(train)); // seems to crash here, apparently "remove" wants an index 
+			int pos = trains_here.indexOf(train); // -1 if not found
+			if (pos == -1) {
+				System.err.println("BUG: cant find the train in my pvt Array, although it should have been in this station!");
+			}
+			trains_here.remove(pos); // seems to crash here, apparently "remove" wants an index 
 		}
 	}
 	

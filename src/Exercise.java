@@ -26,13 +26,13 @@ public class Exercise {
 		Thread visualizatorThread = new Visualizator();
 		visualizatorThread.start();
 		
-		while(true) {
-			try{ 
-				Country.getInstance().wait(); 
-			} catch (InterruptedException e) {
-				System.out.println("Exercise.Main: Something woke me up");
-			}
-		}
-		//System.out.println("Exercise.Main: exiting thread (TODO gather threads info before quitting)");
+//		while(true) {
+//			try{ 
+//				Country.getInstance().wait(); 
+//			} catch (InterruptedException e) {
+//				System.out.println("Exercise.Main: Something woke me up");
+//			}
+//		}
+		System.out.println("Exercise.Main: exiting main thread"); // it would be nice to gather threads info before quitting
 	}
 }
