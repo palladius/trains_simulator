@@ -1,15 +1,22 @@
 //import java.util.Arrays;
 
 /**
- *  this contains the main of the exercise and all the relevant variables.
+ * This ''Hypothetical country'' is the main class (and only singleton).
+ * 
+ *  This contains the main of the exercise and all the relevant variables.
  *  This models a hypothetical country where there are 8 stations and 4 trains.
  *  
  *  This should contain the state of all the app.
+ *  
+ *  An interesting possibility for the Stations/Railways taxonomy would be to
+ *  refactor them into an array of 2N "APlaces", like:
+ *  
+ *    APlace[] places ; // will hold the 2*N positions,
+ *    
+ *  that point alternatively to stations and railways.
  *
  *
- */
-
-/**
+ *
  * @author Riccardo_Carlesso
  *
  */
@@ -20,7 +27,8 @@ public class Country {
 	
 	public static Country singleton_instance; // making it singleton
 	
-	// this describes parameters which are true in my Hypotethical Country
+	// this describes parameters which are true in my Hypothetical Country
+	
 	// TODO_IF_TIME move these to ARGV
 	public static final int NumberOfStations      = 8 ;
 	public static final int NumberOfTrains        = 4 ;
@@ -38,7 +46,6 @@ public class Country {
 	// my private Country singleton
 	private Country() {
 		System.out.println("Country.singleton_initializer");
-		//placesTmpReplaceStationAndRailway = new APlace[ 2*NumberOfStations ]; // cant make it final for this 2* :)
 		// initializing the Infrastructure
 		for(int i = 0; i < Country.NumberOfStations; i++) {
 			stations[i] = new Station(i);
@@ -95,7 +102,7 @@ public class Country {
 				ret += railways[i].toString();
 				ret += '\n';
 			}
-			//try {
+			ret += "== Trains ==\n";
 				for(int j=0; j < NumberOfTrains; j++) {
 					ret += " Train["+j+"]: ";
 					ret += trains[j].toString();

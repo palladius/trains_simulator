@@ -20,7 +20,7 @@ class CargoManager extends AVerboseThread {
 	 * a new random instance of Cargo and delivers it to the appropriate station.
 	 */
 	public void run() {
-		setName("CargoManager (creates Cargo objects from time to time)");
+		setName("CargoManager");
 		log("started");
 		try {
 			while (true) {

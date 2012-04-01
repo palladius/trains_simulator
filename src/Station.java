@@ -14,7 +14,7 @@ public class Station extends APlace {
 	private ArrayList<Train> trains_here; // array of Trains currently here
 	private ArrayList<Cargo> cargos;      // array of Cargos parked here and to be picked up
 	private              int index;       // 0..7
-	protected         Object depotLock = new Object() ; // I can synchronize on this when accessing the Depot
+	protected         Object depotLock  = new Object() ; // I can synchronize on this when accessing the Depot
 	
 	// a station is born with no trains there
 	public Station(int label) {
@@ -24,22 +24,27 @@ public class Station extends APlace {
 	}
 	
 	public synchronized void addTrain(Train newTrain) {
-		//if (train_here != null) {
-		//	throw new Exception("this train is already present in this station: " + train_here);
-		//}
+		// TEST
+		if (trains_here.indexOf(newTrain) != -1) {
+			System.err.println("this train is already present in this station: " + newTrain);
+		}
 		trains_here.add(newTrain); // OK
 	}
 	
 	/**
-	 * ArrayList only supports removing INT (index of object). Strangely enough, Eclipse didnt correct me!
+	 * Removes a train from the list of trains the station has. There is no sync problem.
+	 * 
+	 * Note. ArrayList only supports removing INT (index of object). Strangely enough, Eclipse didnt correct me!
 	 */
 	public synchronized void removeTrain(Train train) {
-		// Maybe in the future check/test exception
-		//if (train_here != null) {
-		//	throw new Exception("this train wasnt in this station before!");
-		//}
-		System.out.println("DEB: trains_here = " + trains_here);
-		trains_here.remove(trains_here.indexOf(train)); // seems to crash here, apparently "remove" wants an index 
+		synchronized(trains_here) {
+			// TEST Maybe in the future check/test exception
+			if (trains_here == null) {
+			//	throw new Exception("this train wasn't in this station before!");
+				System.err.println("this train wasn't in this station before!");
+			}
+			trains_here.remove(trains_here.indexOf(train)); // seems to crash here, apparently "remove" wants an index 
+		}
 	}
 	
 	public boolean isEmpty() {
@@ -49,7 +54,7 @@ public class Station extends APlace {
 		if (verbose) 
 			return "S"+index+"(C:"+ cargos.size() +", Ts:"+trains_here+")";
 		else {
-			//cant afford to print all Train status here..
+			//can't afford to print all Train status here..
 			int occurrences[]; 
 			occurrences = new int[ trains_here.size() ];
 			for (int i=0; i< trains_here.size(); i++) {
@@ -67,10 +72,6 @@ public class Station extends APlace {
 	public int getPosition() {
 		// 2N for stations and 2N+1 for railways
 		return 2 * index;
-	}
-	public Position absolutePosition2() {
-		// 2N for stations and 2N+1 for railways
-		return new Position(2 * index);
 	}
 	
 	// adds cargo from close by city to this station

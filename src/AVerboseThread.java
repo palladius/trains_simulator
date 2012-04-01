@@ -21,6 +21,7 @@ public abstract class AVerboseThread extends Thread {
 	
 	// Note that the substring removes "class " from beginning of GetClass()
 	private void print(String message) {
-		System.out.println("AVT{"+getClass().toString().substring(6)+"} " + message);
+		System.out.println("Th{"+getName()+"} " + message);
+		//System.out.println("AVT{"+getClass().toString().substring(6)+"} " + message);
 	}
 }

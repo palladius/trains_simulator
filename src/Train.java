@@ -14,6 +14,8 @@ The status of the train is (provided the system has NumberOFStations):
 */
 
 import java.util.ArrayList;
+import java.lang.Math;
+
 
 public class Train extends AVerboseThread {
     int slowness ; // models speed = 1/rail_delay (time in seconds to reach next station)
@@ -38,7 +40,7 @@ public class Train extends AVerboseThread {
     
     public void run() {
     	System.out.println("Train started: "+ toString() );
-		setName("Train."+occurrence+"");
+		setName("Train."+occurrence);  // i.e. Train.0
     	log("started: "+ toString() );
     	
     	// here we simulate the train status
@@ -86,7 +88,7 @@ public class Train extends AVerboseThread {
     	// now that I have my resource Railway, I can go into it. 
     	// I simulate the time spent here with different speed as a sleep = slowness in seconds
     	try {
-    		vlog("4b. Occupying railway for some time..");
+    		vlog("" + this + " entering railway track..");
         	Thread.sleep(slowness * 1000);    		
     	} catch (InterruptedException e) {
     		log("TrainThread interrupted when on Railway: "+myRailway);
@@ -126,7 +128,6 @@ public class Train extends AVerboseThread {
 
     private void increment_position() {
 		position = Position.nextPos(position);
-		//position2 = position2.next(); // something like this
 	}
 
     // does action with cargo which might magically disappear...
@@ -136,9 +137,14 @@ public class Train extends AVerboseThread {
     		Cargo c = cargos.get(k);
     		boolean matches = c.destination == position / 2 ;
     		dlog("Lets see if my cargo '"+c+"' matches this position: " + position + ": " + matches);
-    		if (c.source == myStation().getIndex() ) {
-    			cargos.remove(k);
-    			log("Station cargo ");
+    		if (c.destination == myStation().getIndex() ) {
+    			Cargo tmpCargo = cargos.remove(k);
+    			vlog("Cargo correctly unloaded from train "+this+" in station "+myStation()+": " + tmpCargo );
+    		}
+    		try {
+        		Thread.sleep(Country.UnloadTimeMilliSecs); // simulates small time wait    			
+    		} catch (Exception e) {
+    			log("Interrupted while unloading some cargo..");
     		}
     	}
 	}
@@ -152,27 +158,21 @@ public class Train extends AVerboseThread {
 		// load cargo based on cargoCapacity
 		Station myStation = myStation();
 		synchronized(myStation.depotLock) {
-	
-	    	dlog("3a. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
-			dlog("3b. Station has following cargos (all are good):\n");
-			//assert_station();
-			//available_cargos = myPlace().cargos;
-			dlog("3c. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
-			dlog("3d. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
-			int cargo_size =  cargos.size(); // if i don't put it here, it takes only half :)
+			int nCargosToGet = Math.min(
+					cargoCapacity - cargos.size(),  // max my Train can get
+					myStation.getCargos().size()    // not more than available in station (dynamic)
+				);
 			// get Cargo 
-			for (int i=0 ; 
-					i < myStation.getCargos().size() && // not more than available in station (dynamic)
-					i < (cargoCapacity - cargo_size )   // not more I (train) can get (static)
-					; i++ ) {
-				//dlog("3e - "+myStation+", adding " + myStation.getCargos().get(i));
+			for (int i=0 ; i < nCargosToGet ; i++) {
 				cargos.add( 
-						myStation.removeAndGetCargo() // this is guaranteed to be reentrant
+						myStation.removeAndGetCargo() // this is guaranteed to be reentrant on the station side
 				);
 			}
-			//dlog("3e. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
-			//dlog("3f. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
-			
+    		try {
+        		Thread.sleep(Country.LoadTimeMilliSecs); // simulates small time wait    			
+    		} catch (Exception e) {
+    			log("Interrupted while loading some cargo..");
+    		}
 		} // synchronized on the station
 	}
 
@@ -182,7 +182,6 @@ public class Train extends AVerboseThread {
         		+ "("
         		+ "pos: " + position
         		+ ",c: "  + cargos
-        		//+ ",sl:"  + slowness 
         		+ ")";
     }
 	public String toStringMini() {

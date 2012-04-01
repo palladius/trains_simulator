@@ -74,9 +74,4 @@ public class Railway extends APlace {
 		return 2 * position + 1;
 	}
 
-	@Override
-	public Position absolutePosition2() {
-		// 2N for stations and 2N+1 for railways
-		return new Position(2 * position + 1);
-	}
 }
