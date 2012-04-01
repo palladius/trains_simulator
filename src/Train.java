@@ -102,7 +102,7 @@ public class Train extends AVerboseThread {
     }
     
     /** 
-     * Status transitions (trivial in this case)
+     * Status transitions (trivial in this case: 1-2-3-4-1-2-3-4-...)
      * 
      * */    
     public synchronized void set_status(TrainStatus new_status) {

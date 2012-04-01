@@ -30,11 +30,30 @@ and their cargo capacity can be easily modified.
 
 The solution is a simple CLI client that might be invoked this way (see Makefile)
 
-  javac *.java
-  java Exercise
+  make clean
+  make run
 
 * A station can have multiple trains, a railway is a shared resource with at most ONE train.
 * There are 2 threads for visualization and cargo generation, plus Nt where is the number of trains. 
 
 As output, the program provides a log-like standard output and a status file with a synoptic which
-helps understand the state of the system.
+helps understand the state of the system. A couple of snapshots have been included in case some problem
+would arise with the code. A VerboseThread abstract class has been created to provide a harmonized logging
+output, wherever possible.
+
+The main() class is Exercise.java and it tries to be completely decoupled from the business logic.
+
+The parameters of the problem have been put all in the Country class (which is our singleton and provides a
+centralized "world" for application variables. I didn't have time to move those parameters to ARGV or to a
+configuration file.
+
+The synchronization among the instances (mostly Trains/Cargos/Stations) have been reached with a few native
+mechanisms of Java (I'm using Java 5):
+
+- synchronized methods    (to make sure 2 threads cant access the same method at the same time).
+- synchronized statements (ditto, for a subpart of it)
+- locks on Java Objects   (to make sure 2 threads cant access the same object at the same time).
+
+I implemented this exercise using Eclipse.
+
+See the single classes JaveDocs for additional info.

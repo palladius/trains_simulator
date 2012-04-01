@@ -9,10 +9,8 @@
 	 *
 	 */
 
-//import java.util.Arrays;
-
 public class Exercise {
-	public static final String ProgramVersion       = "1.0.01alpha" ;
+	public static final String ProgramVersion       = "1.0.02" ;
 	
 	public static void main(String[] args) throws InterruptedException {
 		// initialization
@@ -21,18 +19,11 @@ public class Exercise {
 		System.out.println("Exercise.Main(v"+ProgramVersion+"): Starting simulation with "+ 
 				Country.NumberOfTrains +" trains and "+ Country.NumberOfStations +" stations");
 
-		CargoManager cargo_thread = new CargoManager();
-		cargo_thread.start();
+		CargoManager cargoThread = new CargoManager();
+		cargoThread.start();
 		Thread visualizatorThread = new Visualizator();
 		visualizatorThread.start();
-		
-//		while(true) {
-//			try{ 
-//				Country.getInstance().wait(); 
-//			} catch (InterruptedException e) {
-//				System.out.println("Exercise.Main: Something woke me up");
-//			}
-//		}
+
 		System.out.println("Exercise.Main: exiting main thread"); // it would be nice to gather threads info before quitting
 	}
 }
