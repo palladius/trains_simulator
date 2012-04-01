@@ -9,7 +9,6 @@
 	A station holds a Cargo (thus a cargo doesn't need to know where it is, just where its going)
 */
 
-//import java.util.Arrays;
 import java.util.Date;
 import java.util.Random;
 

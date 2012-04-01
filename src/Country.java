@@ -32,7 +32,7 @@ public class Country {
 	// TODO_IF_TIME move these to ARGV
 	public static final int NumberOfStations      = 8 ;
 	public static final int NumberOfTrains        = 4 ;
-	public static final int RandomCargoPeriodSecs = 5 ; // seconds to randomize the arrive of a new cargo
+	public static final int RandomCargoPeriodMs = 5000 ; // ms to randomize the arrive of a new cargo
 	public static final int UnloadTimeMilliSecs   = 200 ; // small amount of time to unload any ONE piece of cargo
 	public static final int LoadTimeMilliSecs     = 100 ; // bit of time to unload any ONE piece of cargo
 	public static final int CargoCapacity         = 10 ;  // number of cargo units a train can have
@@ -92,25 +92,17 @@ public class Country {
 		String ret = "";
 		if (verbose) {
 			// verbose multiline print
-			ret += "== Current Country Status ==\n";
+			ret += "# Current Country Status (in YAML format)\n";
 			ret += "Date: "+ (new Date()) +"\n";
+			ret += "Country:\n";
 			for(int i=0;i<NumberOfStations;i++) {
-				ret += " Station["+i+"]: ";
+				ret += " Station "+i+": ";
 				ret += stations[i].toString();
 				ret += '\n';
-				ret += " Railway["+i+"]: ";
+				ret += " Railway "+i+": ";
 				ret += railways[i].toString();
 				ret += '\n';
 			}
-			ret += "== Trains ==\n";
-				for(int j=0; j < NumberOfTrains; j++) {
-					ret += " Train["+j+"]: ";
-					ret += trains[j].toString();
-					ret += '\n';
-				}
-			//} catch (Exception e) {
-			//	ret += "Train visualization Exception ("+e+") :(";
-			//}
 		} else {
 			for(int i=0;i<NumberOfStations;i++) {
 				ret += '[';
