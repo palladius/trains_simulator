@@ -19,19 +19,20 @@ public class Station extends APlace {
 		cargos      = new ArrayList<Cargo>();
 	}
 	
-	public void addTrain(Train newTrain) {
+	public synchronized void addTrain(Train newTrain) {
 		//if (train_here != null) {
 		//	throw new Exception("this train is already present in this station: " + train_here);
 		//}
 		trains_here.add(newTrain); // OK
 	}
 	
-	public void removeTrain(Train train) {
+	public synchronized void removeTrain(Train train) {
 		// Maybe in the future check/test exception
 		//if (train_here != null) {
 		//	throw new Exception("this train wasnt in this station before!");
 		//}
-		trains_here.remove(train);
+		System.out.println("DEB: trains_here = " + trains_here);
+		trains_here.remove(train); // seems to crash here
 	}
 	
 	public boolean isEmpty() {

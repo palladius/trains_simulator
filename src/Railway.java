@@ -18,7 +18,7 @@ public class Railway extends APlace {
 		train_here = null ;
 	}
 	
-	public void addTrain(Train newTrain)  { // throws Exception
+	public synchronized void addTrain(Train newTrain)  { // throws Exception
 		if (train_here != null) {
 			//throw new Exception("a train is already present: " + train_here);
 			System.err.println("Kaboom! These two train collided:\n"
@@ -31,7 +31,7 @@ public class Railway extends APlace {
 		train_here = newTrain;
 	}
 	
-	public void removeTrain(Train oldTrain) { //  throws Exception
+	public synchronized void removeTrain(Train oldTrain) { //  throws Exception
 		//if (train_here == null) {
 		//	throw new Exception("no train was present!");
 		//}
