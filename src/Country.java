@@ -91,15 +91,15 @@ public class Country {
 				ret += railways[i].toString();
 				ret += '\n';
 			}
-			try {
+			//try {
 				for(int j=0; j < NumberOfTrains; j++) {
 					ret += " Train["+j+"]: ";
 					ret += trains[j].toString();
 					ret += '\n';
 				}
-			} catch (Exception e) {
-				ret += "Train visualization Exception ("+e+") :(";
-			}
+			//} catch (Exception e) {
+			//	ret += "Train visualization Exception ("+e+") :(";
+			//}
 		} else {
 			for(int i=0;i<NumberOfStations;i++) {
 				ret += '[';

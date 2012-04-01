@@ -19,6 +19,14 @@ public class Railway extends APlace {
 	}
 	
 	public synchronized void addTrain(Train newTrain)  { // throws Exception
+		if (train_here == newTrain) {
+			//throw new Exception("a train is already present: " + train_here);
+			System.err.println("Fatal BUG! I'm trying to register for a Railway I already belong:\n"
+				+ " ME:     " + newTrain   + '\n'
+				+ " MYSELF: " + train_here + '\n'
+			);
+			System.exit(67);
+		}
 		if (train_here != null) {
 			//throw new Exception("a train is already present: " + train_here);
 			System.err.println("Kaboom! These two train collided:\n"

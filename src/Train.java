@@ -66,6 +66,15 @@ public class Train extends AVerboseThread {
 
     	dlog("4. Registering '"+this+"' on Railway: " + myRailway);
     	vlog("TODO implement wait for other trains in the railway!!!");
+    	
+    	// TODO verify it works!
+    	while(myRailway.isBusy()) {
+    		try {
+    			wait();
+    		} catch (InterruptedException e) {
+    			log("DEBUG seems like I've been waken up!");
+    		}
+    	}
  
     	myRailway.addTrain(this);
     	
@@ -104,6 +113,7 @@ public class Train extends AVerboseThread {
     	        increment_position(); // moving from station to next railway
     	        registerToRailway(position/2);  // should be (N-1)/2 (odd). Possibly Ill wait here
     	        increment_position();
+    	        notifyAll(); // SYNC todo see if it works
     	        break;
     	}
     }
@@ -124,17 +134,25 @@ public class Train extends AVerboseThread {
     	}
 	}
 
-	void loadCargo() {
-		// TODO load cargo based on cargoCapacity
+	public synchronized void loadCargo() {
+		// load cargo based on cargoCapacity
     	dlog("3a. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
 		dlog("3b. Station has following cargos (all are good):\n");
 		//assert_station();
 		//available_cargos = myPlace().cargos;
 		Station myStation = (Station) APlace.getCountryPlace(position);
-		Cargo available_cargos[];
-		for (int i=0 ; i < myStation.getCargos() ; i++ ) {
-			
+		dlog("3c. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
+		dlog("3d. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
+		
+		// get Cargo 
+		for (int i=0 ; 
+				i < myStation.getCargos().size() && // not more than available in station
+				i < (cargoCapacity - cargos.size()) // not more I (train) can get 
+				; i++ ) {
+			dlog("3e - "+myStation+": " + myStation.getCargos().get(i));
+			TODO atomically sutract / add
 		}
+		// TODO load stuff
 	}
 
 //	private APlace myPlace() {
