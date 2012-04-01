@@ -1,4 +1,5 @@
-= Trains Problem =
+Trains Problem
+--------------
 
 In some hypothetical country, there are 8 train stations with a single rail track
 connecting the train stations. This track forms a big circle.
@@ -26,12 +27,14 @@ interesting events (arriving at a station, departing, loading, unloading, etc) t
 screen. Design your program so that the number of stations, the number of trains
 and their cargo capacity can be easily modified.
 
-= Solution =
+Solution
+--------
 
-The solution is a simple CLI client that might be invoked this way (see Makefile)
+The solution is a simple CLI client that might be invoked this way (see `Makefile`)
 
-  make clean
-  make run
+    make clean
+
+    make run
 
 * A station can have multiple trains, a railway is a shared resource with at most ONE train.
 * There are 2 threads for visualization and cargo generation, plus Nt where is the number of trains. 
@@ -41,7 +44,7 @@ helps understand the state of the system. A couple of snapshots have been includ
 would arise with the code. A VerboseThread abstract class has been created to provide a harmonized logging
 output, wherever possible.
 
-The main() class is Exercise.java and it tries to be completely decoupled from the business logic.
+The `main()` method is `Exercise.java` and it tries to be completely decoupled from the business logic.
 
 The parameters of the problem have been put all in the Country class (which is our singleton and provides a
 centralized "world" for application variables. I didn't have time to move those parameters to ARGV or to a
