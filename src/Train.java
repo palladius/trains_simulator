@@ -23,7 +23,6 @@ public class Train extends AVerboseThread {
     private Cargo[] cargos ;
     private int occurrence;             // cardinal number for better observation
     private final int cargoCapacity;
-    private Date birthDate;
     private TrainStatus status;
     
     public enum TrainStatus { STATION_START, STATION_UNLOAD_CARGO, STATION_LOAD_CARGO, STATION_END };
@@ -34,7 +33,6 @@ public class Train extends AVerboseThread {
         this.cargos = null ;
         this.occurrence = n;
         this.cargoCapacity = cargo_capacity;
-        this.birthDate = new Date();
         this.status    = TrainStatus.STATION_START;
     }
     

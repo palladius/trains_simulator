@@ -10,6 +10,7 @@
 */
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Random;
 
 public class Cargo {
@@ -17,10 +18,12 @@ public class Cargo {
 	
 	int source;
 	int destination;
-	
+	Date birthDate; // might be interesting to make statistics about the lifespan of a cargo object
+
 	public Cargo(int src,int dest) {
 		source      = src;
 		destination = dest;
+        birthDate = new Date();
 		//if (source==destination) {
 		//	throw Exception("src and destination for a Cargo shouldn't be the same!");
 		//}
