@@ -11,7 +11,7 @@ public abstract class APlace {
 	public abstract void addTrain(Train t) throws Exception;
 	public abstract void removeTrain(Train t) throws Exception;
 	public abstract boolean isEmpty();
-	public abstract int absolutePosition() ;       // 2N for stations and 2N+1 for railways
+	public abstract int getPosition() ;       // 2N for stations and 2N+1 for railways
 	public abstract Position absolutePosition2() ; // Newer if I have time to move it
 	
 	public boolean isBusy () {

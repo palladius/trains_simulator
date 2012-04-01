@@ -2,6 +2,9 @@
 	8 stations.
 	Each station can have any number of trains inside and any number of cargos to be delivered to
 	some other station.
+	
+	Index is N      - 0..7
+	Position is 2N  - 0..14
 */
 
 //import java.util.Arrays;
@@ -10,11 +13,11 @@ import java.util.ArrayList;
 public class Station extends APlace {
 	private ArrayList<Train> trains_here; // array of Trains currently here
 	private ArrayList<Cargo> cargos;      // array of Cargos parked here and to be picked up
-	private              int position;    // 0..7
+	private              int index;       // 0..7
 	
 	// a station is born with no trains there
 	public Station(int label) {
-		position = label;
+		index = label;
 		trains_here = new ArrayList<Train>();
 		cargos      = new ArrayList<Cargo>();
 	}
@@ -42,18 +45,18 @@ public class Station extends APlace {
 		return trains_here.isEmpty();
 	}
 	public String toString(boolean verbose) {
-		return "S"+position+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
+		return "S"+index+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
 	}
 	public String toString() {
 		return toString(false); 
 	}
-	public int absolutePosition() {
+	public int getPosition() {
 		// 2N for stations and 2N+1 for railways
-		return 2 * position;
+		return 2 * index;
 	}
 	public Position absolutePosition2() {
 		// 2N for stations and 2N+1 for railways
-		return new Position(2 * position);
+		return new Position(2 * index);
 	}
 	
 	// adds cargo from close by city to this station
@@ -67,6 +70,10 @@ public class Station extends APlace {
 
 	public synchronized void removeCargo(int cargoIndex) {
 		this.cargos.remove(cargoIndex);
+	}
+
+	public int getIndex() {
+		return index;
 	}
 
 }

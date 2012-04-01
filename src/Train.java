@@ -38,7 +38,7 @@ public class Train extends AVerboseThread {
     
     public void run() {
     	System.out.println("Train started: "+ toString() );
-		setName("ThTrain(occurrence="+occurrence+")");
+		setName("Train."+occurrence+"");
     	log("started: "+ toString() );
     	
     	// here we simulate the train status
@@ -58,7 +58,7 @@ public class Train extends AVerboseThread {
     	myStation.addTrain(this);
     	dlog("1b. Registered  '"+this+"' on Station: "+myStation);
     }
-    public void registerToRailway(int railway_number) {
+    public synchronized void registerToRailway(int railway_number) {
     	Railway myRailway = Country.getInstance().getRailway(railway_number);
     	Station myStation = Country.getInstance().getStation(railway_number); // Apparent bug. Note that the station has the same number as the Railway
 
@@ -98,7 +98,7 @@ public class Train extends AVerboseThread {
     public synchronized void set_status(TrainStatus new_status) {
     	//dlog("Status Change for "+this+": "+ status +" => "+ new_status );
     	mystatus = new_status;
-    	// Manage status change todo
+
     	switch(new_status) {
     		case STATION_START:
     	        registerToStation(position/2);  // should be exactly N/2 (even)
@@ -120,19 +120,26 @@ public class Train extends AVerboseThread {
     }
 
     private void increment_position() {
-		// TODO Auto-generated method stub
-    	position = Position.nextPos(position);
+		position = Position.nextPos(position);
 		//position2 = position2.next(); // something like this
 	}
 
 	void unloadCargo() {
-		// TODO if matches, remove it
-    	dlog("2. TODO UnLoadCargo for "+this+" at position: " + position);
+    	dlog("2. UnLoadCargo for "+this+" at position: " + position);
     	for(int k=0; k < cargos.size(); k++) {
     		Cargo c = cargos.get(k);
     		boolean matches = c.destination == position / 2 ;
     		dlog("Lets see if my cargo '"+c+"' matches this position: " + position + ": " + matches);
+    		if (c.source == myStation().getIndex() ) {
+    			cargos.remove(k);
+    			log("Station cargo ");
+    		}
     	}
+	}
+	
+	// can only call this internally, its a shortcut to a typcast of the station from current position
+	private Station myStation() {
+		return (Station) APlace.getCountryPlace(position);
 	}
 
 	public synchronized void loadCargo() {
@@ -141,7 +148,7 @@ public class Train extends AVerboseThread {
 		dlog("3b. Station has following cargos (all are good):\n");
 		//assert_station();
 		//available_cargos = myPlace().cargos;
-		Station myStation = (Station) APlace.getCountryPlace(position);
+		Station myStation = myStation();  // (Station) APlace.getCountryPlace(position);
 		dlog("3c. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
 		dlog("3d. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
 		

@@ -124,7 +124,7 @@ public class Country {
 	}
 	
 	public String toString() {
-		return currentState(true);
+		return currentState(false);
 	}
 	
 	public Station getStation(int which) {
