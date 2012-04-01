@@ -52,7 +52,7 @@ public class Country {
 					4*i,                     // initial position
 					Country.CargoCapacity 
 			); 
-			//train.start();
+			train.start(); // it's a thread
 		}
 	}
 	
@@ -91,11 +91,15 @@ public class Country {
 				ret += railways[i].toString();
 				ret += '\n';
 			}
-//			for(int j=0; j < NumberOfTrains; j++) {
-//				ret += " Train["+j+"]: ";
-//				ret += trains[j].toString();
-//				ret += '\n';
-//			}
+			try {
+				for(int j=0; j < NumberOfTrains; j++) {
+					ret += " Train["+j+"]: ";
+					ret += trains[j].toString();
+					ret += '\n';
+				}
+			} catch (Exception e) {
+				ret += "Train visualization Exception ("+e+") :(";
+			}
 		} else {
 			for(int i=0;i<NumberOfStations;i++) {
 				ret += '[';

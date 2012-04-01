@@ -14,7 +14,7 @@
 //import java.util.Arrays;
 
 public class Exercise {
-	public static final String ProgramVersion       = "0.9.5" ;
+	public static final String ProgramVersion       = "0.9.6" ;
 	
 	public static void main(String[] args) throws InterruptedException {
 		// initialization
@@ -32,17 +32,17 @@ public class Exercise {
 
 		// initializing trains
 		// Note. Conceptually, the train should be born in country constructor...
-		for(int i = 0; i < Country.NumberOfTrains ; i++) {
+		//for(int i = 0; i < Country.NumberOfTrains ; i++) {
 			// they all start in same position with different speed
-			Train train = Country.getInstance().getTrain(i);
+			//Train train = Country.getInstance().getTrain(i);
 // 			train = new Train(
 //					i ,                      // cardinal
 //					4+i,                     // time to traverse a Track (simulates speed)
 //					4*i,                     // initial position
 //					Country.CargoCapacity 
 //			); 
-			train.start();
-		}
+			//train.start();
+		//}
 		System.out.println("Exercise.Main: All trains started");		
 		System.out.println("Exercise.Main: exiting thread (TODO gather threads info before quitting)");
 	}

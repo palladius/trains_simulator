@@ -131,9 +131,9 @@ public class Train extends AVerboseThread {
 	@Override
     public String toString() {
         return "Train '"+occurrence
-        		+ "' (time: " + slowness 
-        		+ ", position: "+position
-        		+ ", cargos: "+ cargos // (cargos != null ? cargos : '-')
+        		+ "' (t:"  + slowness 
+        		+ ",pos: " + position
+        		+ ",cargos: "+ cargos // (cargos != null ? cargos : '-')
         		+ ")";
     }
 }
