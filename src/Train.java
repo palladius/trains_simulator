@@ -136,11 +136,9 @@ public class Train extends AVerboseThread {
 	    	dlog("2. UnLoadCargo for "+this+" at position: " + position);
 	    	for(int k=0; k < cargos.size(); k++) {
 	    		Cargo c = cargos.get(k);
-	    		//boolean matches = c.destination == position / 2 ;
-	    		//dlog("Lets see if my cargo '"+c+"' matches this position: " + position + ": " + matches);
 	    		if (c.destination == myStation().getIndex() ) {
 	    			Cargo tmpCargo = cargos.remove(k);
-	    			vlog("Cargo correctly unloaded in station "+myStation()+": " + tmpCargo );
+	    			vlog("Cargo correctly unloaded in station "+myStation().toStringMini()+": " + tmpCargo );
 	    		}
 	    		try {
 	        		Thread.sleep(Country.UnloadTimeMilliSecs); // simulates small time wait    			
