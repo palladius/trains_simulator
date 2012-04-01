@@ -47,7 +47,7 @@ public class Station extends APlace {
 	}
 	public String toString(boolean verbose) {
 		if (verbose) 
-			return "S"+index+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
+			return "S"+index+"(C:"+ cargos.size() +", Ts:"+trains_here+")";
 		else {
 			//cant afford to print all Train status here..
 			int occurrences[]; 
@@ -55,7 +55,7 @@ public class Station extends APlace {
 			for (int i=0; i< trains_here.size(); i++) {
 				occurrences[i] = trains_here.get(i).occurrence;
 			}
-			return "S"+index+"(#C"+ cargos.size() +", Ts:"+Arrays.toString(occurrences)+")";
+			return "S"+index+"(C:"+ cargos.size() +", Ts:"+Arrays.toString(occurrences)+")";
 		}
 	}
 	public String toString() {
@@ -88,6 +88,23 @@ public class Station extends APlace {
 
 	public int getIndex() {
 		return index;
+	}
+
+	/**
+	 * his methods basically does a 'pop' frpom the array. For the
+	 * exercise, it's not important which cargo is taken, so for simplicity
+	 * we'll get the first one.
+	 * 
+	 * The important thing is that this code is synchronized so any
+	 * access to the array should be locked to one thread at a time.
+	 * 
+	 * Actually 'remove' does exactly what we want
+	 * 
+	 * @return returns the 'popped' cargo.
+	 * 
+	 */
+	public synchronized Cargo removeAndGetCargo() {
+		return cargos.remove(0);
 	}
 
 }

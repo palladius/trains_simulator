@@ -58,6 +58,12 @@ public class Train extends AVerboseThread {
     	myStation.addTrain(this);
     	dlog("1b. Registered  '"+this+"' on Station: "+myStation);
     }
+    
+    /**
+     * This is where a train waits in the Railway
+     * 
+     * @param railway_number
+     */
     public synchronized void registerToRailway(int railway_number) {
     	Railway myRailway = Country.getInstance().getRailway(railway_number);
     	Station myStation = Country.getInstance().getStation(railway_number); // Apparent bug. Note that the station has the same number as the Railway
@@ -65,9 +71,8 @@ public class Train extends AVerboseThread {
     	myStation.removeTrain(this); // deregistering Train from the station which has the same number as the RW
 
     	dlog("4. Registering '"+this+"' on Railway: " + myRailway);
-    	vlog("TODO implement wait for other trains in the railway!!!");
     	
-    	// TODO verify it works!
+    	// this synchronizes all trains on a "single track" railway
     	while(myRailway.isBusy()) {
     		try {
     			wait();
@@ -114,7 +119,7 @@ public class Train extends AVerboseThread {
     	        increment_position(); // moving from station to next railway
     	        registerToRailway(position/2);  // should be (N-1)/2 (odd). Possibly Ill wait here
     	        increment_position();
-    	        notifyAll(); // SYNC todo see if it works
+    	        notifyAll();                    // SYNC waiting objects
     	        break;
     	}
     }
@@ -124,7 +129,8 @@ public class Train extends AVerboseThread {
 		//position2 = position2.next(); // something like this
 	}
 
-	void unloadCargo() {
+    // does action with cargo which might magically disappear...
+	synchronized void unloadCargo() {
     	dlog("2. UnLoadCargo for "+this+" at position: " + position);
     	for(int k=0; k < cargos.size(); k++) {
     		Cargo c = cargos.get(k);
@@ -144,7 +150,7 @@ public class Train extends AVerboseThread {
 
 	public synchronized void loadCargo() {
 		// load cargo based on cargoCapacity
-		Station myStation = myStation();  // (Station) APlace.getCountryPlace(position);
+		Station myStation = myStation();
 		synchronized(myStation.depotLock) {
 	
 	    	dlog("3a. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
@@ -153,30 +159,22 @@ public class Train extends AVerboseThread {
 			//available_cargos = myPlace().cargos;
 			dlog("3c. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
 			dlog("3d. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
-			
+			int cargo_size =  cargos.size(); // if i don't put it here, it takes only half :)
 			// get Cargo 
 			for (int i=0 ; 
-					i < myStation.getCargos().size() && // not more than available in station
-					i < (cargoCapacity - cargos.size()) // not more I (train) can get 
+					i < myStation.getCargos().size() && // not more than available in station (dynamic)
+					i < (cargoCapacity - cargo_size )   // not more I (train) can get (static)
 					; i++ ) {
-				///////////////////////////////////////////////////////////////////////////
-				// Should be synchronized:
-				dlog("3e - "+myStation+", adding " + myStation.getCargos().get(i));
-				// TO DO atomically subtract / add
-				// TO DO MONITOR THIS:
-				myStation.removeCargo(i);
-				cargos.add( myStation.getCargos().get(i) );
+				//dlog("3e - "+myStation+", adding " + myStation.getCargos().get(i));
+				cargos.add( 
+						myStation.removeAndGetCargo() // this is guaranteed to be reentrant
+				);
 			}
-			dlog("3e. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
-			dlog("3f. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
+			//dlog("3e. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
+			//dlog("3f. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
 			
 		} // synchronized on the station
 	}
-
-//	private APlace myPlace() {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
     public String toString() {

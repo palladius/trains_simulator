@@ -39,6 +39,7 @@ public class Railway extends APlace {
 		train_here = newTrain;
 	}
 	
+	// must be synchronized, although only one process should run at a given time..
 	public synchronized void removeTrain(Train oldTrain) { //  throws Exception
 		//if (train_here == null) {
 		//	throw new Exception("no train was present!");

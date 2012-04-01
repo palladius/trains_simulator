@@ -15,17 +15,17 @@ import java.util.Random;
 class CargoManager extends AVerboseThread {
 	public static Random random = new Random();
 
-	// Uses Country.RandomCargoPeriodSecs 
+	/** 
+	 * This thread generates every "Country.RandomCargoPeriodSecs" seconds
+	 * a new random instance of Cargo and delivers it to the appropriate station.
+	 */
 	public void run() {
 		setName("CargoManager (creates Cargo objects from time to time)");
-		vlog("started");
+		log("started");
 		try {
 			while (true) {
-				// TODO put 100 to 1000 :)
-				Thread.sleep(random.nextInt(100 * Country.RandomCargoPeriodSecs )); 
-				Cargo recurrent = Cargo.getRandomCargo();
-				//dlog("Generating a cargo: "+ recurrent );
-				//Country.getInstance().stations[ recurrent.getSource() ].setCargo
+				Thread.sleep(random.nextInt(1000 * Country.RandomCargoPeriodSecs )); 
+				Cargo recurrent = Cargo.getRandomCargo(); // creates a random Cargo instance (factory)
 				Country.getInstance().deliverCargoToAppropriateStation(recurrent);
 			}
 		} catch (InterruptedException e) {
