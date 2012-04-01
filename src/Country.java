@@ -49,7 +49,7 @@ public class Country {
  			train = new Train(
 					i ,                      // cardinal
 					4+i,                     // time to traverse a Track (simulates speed)
-					4*i,                     // initial position
+					2*i,                     // initial position
 					Country.CargoCapacity 
 			); 
 			train.start(); // it's a thread

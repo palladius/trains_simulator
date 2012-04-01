@@ -52,7 +52,7 @@ public class Railway extends APlace {
 	}
 
 	public String toString() {
-		return "R"+position+"("+ train_here +")";
+		return "R"+position+"(T:"+ (train_here == null ? '-' : train_here)+")";
 	}
 	public int absolutePosition() {
 		// 2N for stations and 2N+1 for railways

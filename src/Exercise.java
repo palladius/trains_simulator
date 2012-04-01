@@ -14,7 +14,7 @@
 //import java.util.Arrays;
 
 public class Exercise {
-	public static final String ProgramVersion       = "0.9.6" ;
+	public static final String ProgramVersion       = "0.9.7" ;
 	
 	public static void main(String[] args) throws InterruptedException {
 		// initialization

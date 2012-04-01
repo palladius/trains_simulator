@@ -39,7 +39,7 @@ public class Station extends APlace {
 	}
 	
 	public String toString() {
-		return "S"+position+"("+ cargos.size() +")";
+		return "S"+position+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
 	}
 	public int absolutePosition() {
 		// 2N for stations and 2N+1 for railways
