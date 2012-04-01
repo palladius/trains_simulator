@@ -1,6 +1,6 @@
 
 public abstract class AVerboseThread extends Thread {
-	public static boolean Debug   = true;
+	public static boolean Debug   = false;
 	public static boolean Verbose = true;
 	
 	public void dlog(String message) {

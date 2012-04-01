@@ -13,6 +13,9 @@
  * @author Riccardo_Carlesso
  *
  */
+
+import java.util.Date;
+
 public class Country {
 	
 	public static Country singleton_instance; // making it singleton
@@ -82,7 +85,8 @@ public class Country {
 		String ret = "";
 		if (verbose) {
 			// verbose multiline print
-			ret += "=========== Current Country Status ========\n";
+			ret += "== Current Country Status ==\n";
+			ret += "Date: "+ (new Date()) +"\n";
 			for(int i=0;i<NumberOfStations;i++) {
 				ret += " Station["+i+"]: ";
 				ret += stations[i].toString();
@@ -103,11 +107,11 @@ public class Country {
 		} else {
 			for(int i=0;i<NumberOfStations;i++) {
 				ret += '[';
-				ret += stations[i].toString();
+				ret += stations[i].toStringMini();
 				ret += ']';
 				ret += "  ";
 				ret += "»";
-				ret += railways[i].toString();
+				ret += railways[i].toStringMini();
 				ret += "»";
 			}			
 		}

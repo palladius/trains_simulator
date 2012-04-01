@@ -7,13 +7,14 @@
 	Position is 2N  - 0..14
 */
 
-//import java.util.Arrays;
+import java.util.Arrays;
 import java.util.ArrayList;
 
 public class Station extends APlace {
 	private ArrayList<Train> trains_here; // array of Trains currently here
 	private ArrayList<Cargo> cargos;      // array of Cargos parked here and to be picked up
 	private              int index;       // 0..7
+	protected         Object depotLock = new Object() ; // I can synchronize on this when accessing the Depot
 	
 	// a station is born with no trains there
 	public Station(int label) {
@@ -45,10 +46,23 @@ public class Station extends APlace {
 		return trains_here.isEmpty();
 	}
 	public String toString(boolean verbose) {
-		return "S"+index+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
+		if (verbose) 
+			return "S"+index+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
+		else {
+			//cant afford to print all Train status here..
+			int occurrences[]; 
+			occurrences = new int[ trains_here.size() ];
+			for (int i=0; i< trains_here.size(); i++) {
+				occurrences[i] = trains_here.get(i).occurrence;
+			}
+			return "S"+index+"(#C"+ cargos.size() +", Ts:"+Arrays.toString(occurrences)+")";
+		}
 	}
 	public String toString() {
-		return toString(false); 
+		return toString(true); 
+	}
+	public String toStringMini() {
+		return toString(false);
 	}
 	public int getPosition() {
 		// 2N for stations and 2N+1 for railways

@@ -62,6 +62,12 @@ public class Railway extends APlace {
 	public String toString() {
 		return "R"+position+"("+ (train_here == null ? '-' : train_here)+")";
 	}
+	public String toStringMini() {
+		return "R"+position + (train_here == null 
+					? "" 
+					: "{" + train_here.toStringMini() + "}"
+				);
+	}
 	public int getPosition() {
 		// 2N for stations and 2N+1 for railways
 		return 2 * position + 1;

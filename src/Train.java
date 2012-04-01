@@ -144,29 +144,33 @@ public class Train extends AVerboseThread {
 
 	public synchronized void loadCargo() {
 		// load cargo based on cargoCapacity
-    	dlog("3a. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
-		dlog("3b. Station has following cargos (all are good):\n");
-		//assert_station();
-		//available_cargos = myPlace().cargos;
 		Station myStation = myStation();  // (Station) APlace.getCountryPlace(position);
-		dlog("3c. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
-		dlog("3d. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
-		
-		// get Cargo 
-		for (int i=0 ; 
-				i < myStation.getCargos().size() && // not more than available in station
-				i < (cargoCapacity - cargos.size()) // not more I (train) can get 
-				; i++ ) {
-			///////////////////////////////////////////////////////////////////////////
-			// Should be synchronized:
-			dlog("3e - "+myStation+", adding " + myStation.getCargos().get(i));
-			//TODO atomically sutract / add
-			// TODO MONITOR THIS:
-			myStation.removeCargo(i);
-			cargos.add( myStation.getCargos().get(i) );
-		}
-		dlog("3e. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
-		dlog("3f. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
+		synchronized(myStation.depotLock) {
+	
+	    	dlog("3a. TODO easy LoadCargo at position, lets see what cargos are available now: " + position);
+			dlog("3b. Station has following cargos (all are good):\n");
+			//assert_station();
+			//available_cargos = myPlace().cargos;
+			dlog("3c. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
+			dlog("3d. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
+			
+			// get Cargo 
+			for (int i=0 ; 
+					i < myStation.getCargos().size() && // not more than available in station
+					i < (cargoCapacity - cargos.size()) // not more I (train) can get 
+					; i++ ) {
+				///////////////////////////////////////////////////////////////////////////
+				// Should be synchronized:
+				dlog("3e - "+myStation+", adding " + myStation.getCargos().get(i));
+				// TO DO atomically subtract / add
+				// TO DO MONITOR THIS:
+				myStation.removeCargo(i);
+				cargos.add( myStation.getCargos().get(i) );
+			}
+			dlog("3e. Station '"+myStation+"' has " +myStation.getCargos().size()+ " cargos available");
+			dlog("3f. '"+this+"' has " + cargos.size()+ "/"+cargoCapacity + " in use");
+			
+		} // synchronized on the station
 	}
 
 //	private APlace myPlace() {
@@ -180,7 +184,10 @@ public class Train extends AVerboseThread {
         		+ "("
         		+ "pos: " + position
         		+ ",c: "  + cargos
-        		+ ",slow::"  + slowness 
+        		//+ ",sl:"  + slowness 
         		+ ")";
     }
+	public String toStringMini() {
+		return "T"+occurrence+"(p="+position+")";
+	}
 }
