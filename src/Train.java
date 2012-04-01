@@ -53,8 +53,9 @@ public class Train extends AVerboseThread {
     // on creation, register that you are in station #station_number
     public void registerToStation(int station_number) {
     	Station myStation = Country.getInstance().getStation(station_number);
-    	dlog("1. Registering '"+this+"' on Station: "+myStation);
+    	dlog("1a. Registering '"+this+"' on Station: "+myStation);
     	myStation.addTrain(this);
+    	dlog("1b. Registered  '"+this+"' on Station: "+myStation);
     }
     public void registerToRailway(int railway_number) {
     	Railway myRailway = Country.getInstance().getRailway(railway_number);

@@ -23,7 +23,7 @@ public class Station extends APlace {
 		//if (train_here != null) {
 		//	throw new Exception("this train is already present in this station: " + train_here);
 		//}
-		trains_here.add(newTrain);
+		trains_here.add(newTrain); // OK
 	}
 	
 	public void removeTrain(Train train) {
@@ -37,9 +37,11 @@ public class Station extends APlace {
 	public boolean isEmpty() {
 		return trains_here.isEmpty();
 	}
-	
-	public String toString() {
+	public String toString(boolean verbose) {
 		return "S"+position+"(#C"+ cargos.size() +", Ts:"+trains_here+")";
+	}
+	public String toString() {
+		return toString(false); 
 	}
 	public int absolutePosition() {
 		// 2N for stations and 2N+1 for railways
