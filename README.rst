@@ -65,3 +65,12 @@ mechanisms of Java (I'm using Java 5):
 I implemented this exercise using Eclipse.
 
 See the single classes JaveDocs for additional info.
+
+Ideas for the future
+--------------------
+
+To make it better:
+
+- Use `java.util.concurrent` from Java 5
+- Use fantastic ''CopyOnWriteArrayList'' and othe nifty stuff from: http://www.ibm.com/developerworks/java/library/j-5things4/index.html
+- change the Abstract Class to an Interface
